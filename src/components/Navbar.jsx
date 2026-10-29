@@ -1,8 +1,14 @@
 import { NavLink } from "react-router-dom";
 
+import { useAuthentication } from "../hooks/useAuthentication";
+import { useAuthValue } from "../context/AuthContext";
+import Logout from "../hooks/Logout";
+
 import styles from "./Navbar.module.css";
 
 const Navbar = () => {
+  const { user } = useAuthValue();
+
   return (
     <nav className={styles.navbar}>
       <NavLink to="/" className={styles.brand}>
@@ -17,22 +23,48 @@ const Navbar = () => {
             Home
           </NavLink>
         </li>
-        <li>
-          <NavLink
-            to="/login"
-            className={({ isActive }) => (isActive ? styles.active : "")}
-          >
-            Entrar
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/register"
-            className={({ isActive }) => (isActive ? styles.active : "")}
-          >
-            Cadastrar
-          </NavLink>
-        </li>
+
+        {!user && (
+          <>
+            <li>
+              <NavLink
+                to="/login"
+                className={({ isActive }) => (isActive ? styles.active : "")}
+              >
+                Entrar
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/register"
+                className={({ isActive }) => (isActive ? styles.active : "")}
+              >
+                Cadastrar
+              </NavLink>
+            </li>
+          </>
+        )}
+
+        {user && (
+          <>
+            <li>
+              <NavLink
+                to="/posts/create"
+                className={({ isActive }) => (isActive ? styles.active : "")}
+              >
+                Novo post
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/dashboard"
+                className={({ isActive }) => (isActive ? styles.active : "")}
+              >
+                Dashboard
+              </NavLink>
+            </li>
+          </>
+        )}
         <li>
           <NavLink
             to="/about"
@@ -41,6 +73,11 @@ const Navbar = () => {
             Sobre
           </NavLink>
         </li>
+        {user && (
+          <li>
+            <button onClick={Logout}>Sair</button>
+          </li>
+        )}
       </ul>
     </nav>
   );

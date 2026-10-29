@@ -1,14 +1,13 @@
 import { db } from "../firebase/config";
 
 import {
-  getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  signOut,
   updateProfile,
 } from "firebase/auth";
 
 import { useState, useEffect } from "react";
+import { auth } from "../firebase/config";
 
 export const useAuthentication = () => {
   const [error, setError] = useState(null);
@@ -18,13 +17,38 @@ export const useAuthentication = () => {
   //dealwith memory leak
   const [cancelled, setCancelld] = useState(false);
 
-  const auth = getAuth();
-
   function cheackIfIsCancelled() {
     if (cancelled) {
       return;
     }
   }
+
+  const login = async (data) => {
+    cheackIfIsCancelled();
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      await signInWithEmailAndPassword(auth, data.email, data.password);
+    } catch (error) {
+      let systemErrorMessage;
+
+      if (error.code === "auth/user-not-found") {
+        systemErrorMessage = "Usuário não encontrado.";
+      } else if (error.code === "auth/wrong-password") {
+        systemErrorMessage = "Senha incorreta.";
+      } else if (error.code === "auth/invalid-credential") {
+        systemErrorMessage = "E-mail ou senha incorretos.";
+      } else {
+        systemErrorMessage = "Ocorreu um erro ao tentar fazer login.";
+      }
+
+      setError(systemErrorMessage);
+
+      setLoading(false);
+    }
+  };
 
   const creatUser = async (data) => {
     cheackIfIsCancelled();
@@ -70,5 +94,6 @@ export const useAuthentication = () => {
     creatUser,
     error,
     loading,
+    login,
   };
 };
