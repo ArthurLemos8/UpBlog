@@ -13,7 +13,7 @@ const Post = () => {
         <>
           <h1>{post.title}</h1>
           <img className={styles.image} src={post.image} alt={post.title} />
-          <p>{post.body}</p>
+          <p className={styles.content}>{post.body}</p>
           <p className={styles.createdby}>
             Criado por: <span>{post.createdBy}</span>
           </p>
@@ -25,7 +25,6 @@ const Post = () => {
               </p>
             ))}
           </div>
-          <p className={styles.content}>{post.content}</p>
         </>
       )}
     </div>
