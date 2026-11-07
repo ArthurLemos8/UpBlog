@@ -1,6 +1,6 @@
 ## UpBlog 📝
 
-O **UpBlog** é um projeto de miniblog desenvolvido principalmente com tecnologias React e Firebase, com o objetivo de praticar conceitos do ecossistema React e explorar o desenvolvimento de aplicações web modernas.
+O **UpBlog** é um projeto de Upblog desenvolvido principalmente com tecnologias React e Firebase, com o objetivo de praticar conceitos do ecossistema React e explorar o desenvolvimento de aplicações web modernas.
 
 ### Tecnologias principais utilizadas
 
